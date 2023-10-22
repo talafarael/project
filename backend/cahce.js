@@ -1,14 +1,16 @@
 const cache = require('memory-cache');
-class TempData{
-    setTempData(key, data, ttlMilliseconds) {
+
+function setTempData(key, data, ttlMilliseconds) {
     cache.put(key, data, ttlMilliseconds);
 }
- getTempData(key) {
+function getTempData(key) {
     return cache.get(key);
 }
- removeTempData(key) {
+function removeTempData(key) {
     cache.del(key);
 }
-}
-
-module.exports =TempData
+module.exports = {
+    setTempData,
+    getTempData,
+    removeTempData
+};
