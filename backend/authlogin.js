@@ -1,8 +1,16 @@
 const User = require('./model/schema');
-const dcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const Emailsend = require('./emailsend');
 const tempData = require('./cahce');
 const emailSender = new Emailsend();
+const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
+const generateAccessToken = (id) => {
+    const playold = {
+        id,
+    };
+    return jwt.sign(playold, process.env.SECRET, { expiresIn: '24h' });
+};
 class authlogin {
     async register(req, res) {
         try {
@@ -13,14 +21,14 @@ class authlogin {
                     message: 'Пользователь с таким именем не существует ',
                 });
             }
-            const hashpassword = await dcrypt.hash(password, 7);
-           const status=false
+            const hashpassword = await bcrypt.hash(password, 7);
+            const status = false;
             tempData.setTempData(
                 'registrationData',
-                { name, email, hashpassword ,status},
+                { name, email, hashpassword, status },
                 30 * 60 * 1000
             );
-        
+
             return res.status(200).json({ message: 'Email sent successfully' });
         } catch (e) {
             console.error(e);
@@ -28,53 +36,121 @@ class authlogin {
         }
     }
     async sendemail(req, res) {
-      try {
-          const data =tempData.getTempData('registrationData');
-        
-  
-          const status = data.status;
-         console.log(status )
-          if (!status) {
-              const emailUser = data.email;
-               
-              const text = Math.floor(Math.random() * 1000);
-              await emailSender.sendmessage({
-                  emailUser: emailUser,
-                  num: text.toString(),
-              });
-  
-        //       const newstatus = true;
-        //       const name = data.name;
-        //       const email = data.email;
-        //       const hashPassword = data.hashpassword;
-      
-        //       tempData.setTempData(
-        //           'registrationData',
-        //           {
-        //               name: name,
-        //               email: email,
-        //               hashpassword: hashPassword,
-        //               status: newstatus,
-        //           },
-        //           30 * 60 * 1000
-        //       );
-        //   }
-        //   console.log(email)
-        //   console.log('Email sent successfully');
-        //   res.status(200).json({ message: 'Email sent successfully' });
-      }} catch (e) {
-          console.error(e);
-          res.status(400).json({ message: 'Registration error' });
-      }
-  }
-    async registercheck() {
-        const user = new User({
-            username: name,
-            email: email,
-            role: 'user',
-            password: haspassword,
+        try {
+            const data = tempData.getTempData('registrationData');
+
+            const status = data.status;
+            console.log(data)
+            if (!status) {
+                const emailUser = data.email;
+
+                const num = Math.floor(Math.random() * 1000);
+                await emailSender.sendmessage({
+                    emailUser: emailUser,
+                    num: num.toString(),
+                });
+
+                const newstatus = true;
+                const name = data.name;
+                const email = data.email;
+                const hashPassword = data.hashpassword;
+
+                tempData.setTempData(
+                    'registrationData',
+                    {
+                        name: name,
+                        email: email,
+                        hashpassword: hashPassword,
+                        status: newstatus,
+                        num:num
+                    },
+                    30 * 60 * 1000
+                );
+            }
+
+            console.log('Email sent successfully');
+            res.status(200).json({ message: 'Email sent successfully' });
+        } catch (e) {
+            console.error(e);
+            res.status(400).json({ message: 'Registration error' });
+        }
+    }
+    
+    async registercheck(req, res) {
+        try {
+            const data = tempData.getTempData('registrationData');
+            const num =data.num
+            const newstatus = true;
+            const name = data.name;
+            const email = data.email;
+            const hashPassword = data.hashpassword;
+            
+
+            const { password } = req.body;
+            const status = data.status;
+
+            if (password == num) {
+                console.log(name);
+                const user = new User({
+                    username: name,
+                    email: email,
+                    role: 'user',
+                 
+                    password: hashPassword,
+                });
+                user.save();
+                return res.status(200).json({
+                    redirect: '/index',
+                });
+            }
+            console.log(data);
+            tempData.setTempData(
+                'registrationData',
+                {
+                    name: name,
+                    email: email,
+                    hashpassword: hashPassword,
+                    status: status,
+                    num:num,
+                },
+                30 * 60 * 1000
+            );
+
+            return res.status(400).json({
+                message: 'не верный пароль',
+            });
+        } catch (e) {
+            console.error(e);
+            res.status(400).json({ message: 'Registration error' });
+        }
+    }
+    async login(req,res){
+        try{
+           const {email,password} =req.body
+           const user=await User.findOne({email})
+           if (!user) {
+            return res.status(400).json({
+                message: 'Пользователь с таким именем не существует ',
+            });
+        }
+        const validPassword = bcrypt.compareSync(password, user.password);
+        if (!validPassword) {
+            return res
+                .status(400)
+                .json({ message: `Введен неверный пароль` });
+        }
+        const token = generateAccessToken(user._id);
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 86400 * 1000,
         });
-        user.save();
+        return res.status(200).json({
+            redirect: '/',
+        });
+        }catch(e){
+            console.error(e);
+            res.status(400).json({ message: 'Registration error' });
+        }
     }
 }
 module.exports = new authlogin();
