@@ -1,6 +1,9 @@
 const Router=require('express')
-const router =new Router
+const router =new Router()
 const login=require('./authlogin')
+const authMusicController=require('./authMusic')
+
+router.post('/musiccreate', authMusicController.musicCreate);
 
 router.post('/register',login.register)
 router.get ('/sendemail',login.sendemail)
