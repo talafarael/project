@@ -1,14 +1,8 @@
-const multer = require('multer');
+import multer from "multer";
+import { GridFsStorage } from "multer-gridfs-storage";
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'musci1/'); // Директорія для зберігання завантажених файлів
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // Генеруємо унікальне ім'я для файлу
-    }
-});
+const storage = new GridFsStorage({ url: process.env.MONGO });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
-module.exports = upload;
+export default upload;

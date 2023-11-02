@@ -1,23 +1,15 @@
-const mongoose = require("mongoose");
-const Joi = require("joi");
+const mongoose = require('mongoose');
 
-const songSchema = new mongoose.Schema({
-	// name: { type: String, required: true },
-	
-	song: { type: String, required: true },
+const musicSchema = new mongoose.Schema({
+    musicData: {
+        type: Buffer,
+        required: true,
+        data: Buffer,
+
+    },
 	
 });
 
-const validate = (song) => {
-	const schema = Joi.object({
-		// name: Joi.string().required(),
-		
-		song: Joi.string().required(),
-		
-	});
-	return schema.validate(song);
-};
+const Music = mongoose.model('Music', musicSchema);
 
-const Song = mongoose.model("song", songSchema);
-
-module.exports = { Song, validate };
+module.exports = Music;

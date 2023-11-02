@@ -1,19 +1,49 @@
-
-const {Song, validate}=require('./model/music')
+const util = require('util');
+const fs = require('fs');
+const writeFileAsync = util.promisify(fs.writeFile);
+const Music=require('./model/music')
 
 class authMusic{
-    
+
    async musicCreate(req, res) {
-    //  const audio=son.string(req.files)
-  //  const { error } = validate(audio  );
-	// if (error) res.status(400).send({ message: error.details[0].message });
-console.log(req.file)
-	// const song = await Song(req.files).save();
-	// res.status(201).send({ data: song, message: "Song created successfully" });
-     
+    const musicFile = req.files.music1; // Обратите внимание, что это поле 'music1' соответствует ключу, который вы указали в FormData
+    const contentType = musicFile.mimetype;
+console.log(contentType)
+    try {
+        const buffer = musicFile.data; // Получение буфера данных файла
+
+        
+        const music = new Music({
+            musicData: buffer,
+            contentType: contentType,
+            nema:'fafa'
+        });
+
+        await music.save();
+
+        console.log('Музыка успешно сохранена в базе данных.');
+        res.status(200).send('Музыка успешно сохранена в базе данных.');
+    } catch (error) {
+        console.error('Ошибка при сохранении музыки:', error);
+        res.status(500).send('Произошла ошибка при сохранении музыки.');
+    }
      }
 
-   
+   async getmusic(req,res){
+    try{
+
+        const music = await Music.findOne({ name: 'ac' });
+        
+        const file = music.musicData;
+        const audioData = await fs.readFile(file);
+        const audio = new Audio();
+        // audio.src = audioData;
+        consol.log(file)
+    }catch(error){
+        console.error('Ошибка при сохранении музыки:', error);
+        res.status(500).send('Произошла ошибка при сохранении музыки.');
+    }
+   }
 }
 
 
