@@ -33,12 +33,7 @@ console.log(contentType)
     try{
 
         const music = await Music.findOne({ name: 'ac' });
-        
-        const file = music.musicData;
-        const audioData = await fs.readFile(file);
-        const audio = new Audio();
-        // audio.src = audioData;
-        consol.log(file)
+        re.json(music)
     }catch(error){
         console.error('Ошибка при сохранении музыки:', error);
         res.status(500).send('Произошла ошибка при сохранении музыки.');

@@ -30,17 +30,15 @@ musicForm.addEventListener('submit', async (event) => {
 
  playButton.addEventListener('click', function() {
     let audio
-if(!audio){fetch('/auth/getmusic')
-  .catch(error => {
-    console.error('Ошибка при загрузке файла:', error);
-  });
-    // return fetch('/auth/getmusic').then(data => {
-    //     console.log(data)
-    // //     const audio = new Audio(`data:audio/mp3;base64,${data}`);
-    // //     audio.play();
-    // //     console.log(data)})
-    //  } )}
- }
+
+    return fetch('/auth/getmusic').then(data => {
+        console.log(data.data)
+        data.json()
+        let audio = new Audio(`data:audio/mp3;base64,${data}`);
+        console.log(audio)
+    })
+     
+ 
         
    
     
