@@ -7,26 +7,37 @@ const fs=require('fs')
 const Music=require('./model/music')
 const bodyParser = require('body-parser');
 // var fileupload = require("express-fileupload");
+const connect=require('./connectmongo')
 const cors = require("cors")
 const path = require('path');
 const multer=require('multer');
 const { required } = require('joi');
-const GridFsStorage=require('multer-gridfs-storage')
+const {GridFsStorage} = require('multer-gridfs-storage');
 const methodOverride=require('method-override')
-const Grid=require('gridfs-stream')
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'Images')
-    },filename:(req,file,cb)=>{
-        console.log(file)
-        cb(null,Date.now()+path.extname(file.originalname))
-    }
-})
-const upload=multer({
-    storage:storage
-})
+
+
+connect()
+
+
+
+
+    // app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{ 
+    //     try {
+           
+    //         if (!req.file) {
+    //             return res.status(400).json({ error: 'No file uploaded.' });
+    //         }
+    
+    //         res.json({ message: 'File uploaded successfully.' });
+            
+    //     } catch (error) {
+    //         console.error(error);
+    //         return res.status(500).json({ error: 'Internal server error' });
+    //     }
+    // })
+
 const PORT=process.env.PORT||3000
-// app.use(fileupload());
+
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname,'ejs'));
 app.use(express.urlencoded({ extended: true }));
@@ -39,32 +50,12 @@ app.use(express.static(path.join(__dirname,'ejs')));
 app.use(cors());
 
 app.use(express.json())
-app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{ 
-    try {
-       
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded.' });
-        }
 
-        const music = new Music({
-            
-            musicData: {
-                data:fs.readFileSync(path.join(__dirname,"images/",req.file.filename)) ,
-                contentType:'audio/mpeg'}
-
-        });
-      console.log(music)
-        music.save();
-        return res.status(200).json({ message: 'Music file uploaded successfully.' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-})
 app.use('/auth',authRouter)
-start=async()=>{  
+start =async()=>{
+
+  
     try {
-await mongoose.connect(process.env.MONGO)
 
 
      
