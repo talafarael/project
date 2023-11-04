@@ -15,41 +15,43 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const multer=require('multer')
 const path=require('path')
 dotenv.config()
-let Gfs=null
-let storage
-let upoloadmp3
+let gfs=null
+let storage=null
+let upoloadmp3=null
+const Mongo_url=process.env.MONGO
 connect().then(()=>{
-    const conn=mongoose.createConnection(process.env.MONGO)
+    const conn=mongoose.createConnection(Mongo_url)
     conn.once('open',function(){
-        console.log('conection ')
-        Gfs=GridStream(conn.db,mongoose.mongo)
-        Gfs.collection('uploads')
+        console.log('Connection established');
+        gfs=GridStream(conn.db,mongoose.mongo)
+        gfs.collection('uploads')
     })
     storage=new GridFsStorage({
-        url:process.env.MONGO,
+        url:Mongo_url,
         file:(req,file)=>{
             return new Promise((resolve,reject)=>{
-                crypto.randomBytes(16,(err,buff)=>{
+                crypto.randomBytes(16, (err,buf)=>{
                     if(err){
                         return reject(err)
                         
                     }
-                    const fileName = buff.toString('hex') + path.extname(file.originalname);
+                    
+                    const filename = buf.toString('hex') + path.extname(file.originalname);
+                    
                     const fileInfo={
-                        filename:fileName,
-                        bucketname:'uploads',
+                        filename:filename,
+                        bucketName:'uploads',
                     }
+                   
                     resolve(fileInfo)
                 })
 
             })
         }
     })
-    upoloadmp3=multer({storage})
+    upoload=multer({storage})
 
-router.post('/musiccreate',  (req,res)=>{
-console.log(req.files)
-});
+router.post('/musiccreate', upoload.single('music1'))
 })
 // authMusicController.musiccreate
 router.get ('/getmusic',authMusicController.getmusic)
