@@ -33,6 +33,7 @@ console.log(contentType)
     try{
 
         const music = await Music.findOne({ name: 'ac' });
+     
         res.json(music)
     }catch(error){
         console.error('Ошибка при сохранении музыки:', error);

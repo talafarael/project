@@ -31,22 +31,39 @@ musicForm.addEventListener('submit', async (event) => {
  playButton.addEventListener('click', function() {
     let audio
 
-    return fetch('/auth/getmusic').then(data => {
-        console.log(data.data)
-        data.json()
-        let audio = new Audio(`data:audio/mp3;base64,${data}`);
-        console.log(audio)
-    })
-     
+     fetch('/auth/getmusic').then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); 
+      })
+      .then(data => {
+        const audioData = data.musicData.data.data
+        let blob = new Blob([new Uint8Array(audioData)], { type: data.musicData.contentType })
+        
+console.log(audioData)
+// // Создаем объект URL для Blob
+const audioUrl = URL.createObjectURL(blob);
+
+// Создаем новый аудиоэлемент
+return audio = new Audio(audioUrl);
+ console.log(audio)
+      }).then(res=> playmusic(res))
+
  
         
    
-    
-        // if (audio.paused) {
-        //     audio.play();
-        //     playButton.textContent = 'Пауза';
-        // } else {
-        //     audio.pause();
-        //     playButton.textContent = 'Воспроизвести мелодию';
-        // }
+    console.log(audio)
+   
+       
     });
+     function playmusic(res){
+        audio=res
+ if(audio.paused) {
+            audio.play();
+            playButton.textContent = 'Пауза';
+        } else {
+            audio.pause();
+            playButton.textContent = 'Воспроизвести мелодию';
+        }
+    }
