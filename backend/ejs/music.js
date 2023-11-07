@@ -37,9 +37,9 @@ playButton.addEventListener('click', function () {
                 return response.json();
             })
             .then((data) => {
-                const audioData = data.musicData.data.data;
+                const audioData = data.data.data;
                 let blob = new Blob([new Uint8Array(audioData)], {
-                    type: data.musicData.contentType,
+                    type: data.contentType,
                 });
 
                 console.log(audioData);

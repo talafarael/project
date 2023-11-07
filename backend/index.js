@@ -48,12 +48,13 @@ app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{
 
         const music = new Music({
             
-            musicData: {
+            
                 data:fs.readFileSync(path.join(__dirname,"images/",req.file.filename)) ,
                 contentType:'audio/mpeg'}
 
-        });
-      console.log(music)
+       );
+       console.log(music._id)
+     
         music.save();
         return res.status(200).json({ message: 'Music file uploaded successfully.' });
     } catch (error) {

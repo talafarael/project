@@ -32,7 +32,7 @@ console.log(contentType)
    async getmusic(req,res){
     try{
 
-        const music = await Music.findOne({ name: 'dc' });
+        const music = await Music.findOne({ name: 'kd' });
      
         res.json(music)
     }catch(error){
