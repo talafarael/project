@@ -68,7 +68,9 @@ start=async()=>{
 await mongoose.connect(process.env.MONGO)
 
 
-     
+     app.get('/autor', (req, res) => {
+        res.render('creatautor');
+    })
      app.get('/', (req, res) => {
         res.render('login');
     });  

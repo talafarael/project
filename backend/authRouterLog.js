@@ -5,17 +5,10 @@ const authMusicController=require('./authMusic')
 const path = require('path');
 const multer=require('multer');
 const cors = require("cors")
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'Images')
-    },filename:(req,file,cb)=>{
-        console.log(file)
-        cb(null,Date.now()+path.extname(file.originalname))
-    }
-})
-const upload=multer({
-    storage:storage
-})
+const autor=require('./authautor')
+const upload=require('./middalewaer/multer')
+const uploadimg=require('./middalewaer/multerimg')
+router.post('/creatautor',uploadimg.single('autor'),autor.creatAutor)
 router.post('/musiccreate',upload.single('music1'),authMusicController.musiccreate)
 router.get ('/getmusic',authMusicController.getmusic)
 router.post('/register',login.register)
