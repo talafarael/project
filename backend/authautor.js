@@ -21,5 +21,14 @@ class Autor{
         console.log(e)
     }
  }
+ async gerautor(req,res){
+    try{
+        const autors=await Autors.distinct("autor")
+        res.json(autors)
+        }catch(e){
+        console.log(e)
+    }
+
+ }
 }
 module.exports=new Autor()
