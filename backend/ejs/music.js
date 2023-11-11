@@ -4,16 +4,16 @@ let playButton = document.querySelector('.playmusic');
 
 musicForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-
+    const name = document.querySelector('.name').value
     const musicFile = document.getElementById('music1').files[0];
     const formData = new FormData();
-
+    formData.append('name', name); 
     formData.append('music1', musicFile);
     console.log(formData);
     try {
         const response = await fetch('/auth/musiccreate', {
             method: 'POST',
-            body: formData,
+            body: formData
         });
         if (!response.ok) {
             const errorData = await response.json();

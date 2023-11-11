@@ -39,36 +39,38 @@ app.use(express.static(path.join(__dirname,'ejs')));
 app.use(cors());
 
 app.use(express.json())
-app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{ 
-    try {
+// app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{ 
+//     try {
        
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded.' });
-        }
+//         if (!req.file) {
+//             return res.status(400).json({ error: 'No file uploaded.' });
+//         }
 
-        const music = new Music({
+//         const music = new Music({
             
             
-                data:fs.readFileSync(path.join(__dirname,"images/",req.file.filename)) ,
-                contentType:'audio/mpeg'}
+//                 data:fs.readFileSync(path.join(__dirname,"images/",req.file.filename)) ,
+//                 contentType:'audio/mpeg'}
 
-       );
-       console.log(music._id)
+//        );
+//        console.log(music._id)
      
-        music.save();
-        return res.status(200).json({ message: 'Music file uploaded successfully.' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-})
+//         music.save();
+//         return res.status(200).json({ message: 'Music file uploaded successfully.' });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// })
 app.use('/auth',authRouter)
 start=async()=>{  
     try {
 await mongoose.connect(process.env.MONGO)
 
 
-     
+     app.get('/autor', (req, res) => {
+        res.render('creatautor');
+    })
      app.get('/', (req, res) => {
         res.render('login');
     });  

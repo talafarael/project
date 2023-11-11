@@ -1,8 +1,16 @@
-import multer from "multer";
-import { GridFsStorage } from "multer-gridfs-storage";
+const path = require('path');
+const multer=require('multer');
+const cors = require("cors")
+const storage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,'Images')
+    },filename:(req,file,cb)=>{
+        console.log(file)
+        cb(null,Date.now()+path.extname(file.originalname))
+    }
+})
+const upload=multer({
+    storage:storage
+})
 
-const storage = new GridFsStorage({ url: process.env.MONGO });
-
-const upload = multer({ storage });
-
-export default upload;
+module.exports= upload;
