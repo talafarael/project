@@ -4,6 +4,7 @@ const musicForm = document.getElementById('musicForm');
 const button = document.querySelector('.button');
 let playButton = document.querySelector('.playmusic');
 let musicMass=[]
+let player=false
 const musicList=document.querySelector('.musicList')
 musicForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -28,7 +29,9 @@ musicForm.addEventListener('submit', async (event) => {
         console.error('Ошибка при отправке запроса:', error);
     }
 });
- let audio = null;
+let audio= '';
+ let song= '';
+
 function bildListSongs(){
     var html = "";
     for (var i = 0; i < musicMass.length; i++) {
@@ -41,6 +44,8 @@ function bildListSongs(){
     var playButtons = document.getElementsByClassName("playButton");
     for (var j = 0; j < playButtons.length; j++) {
         playButtons[j].addEventListener("click", function(event) {
+            if (audio!== ''){ audio.pause();} 
+          
             var buttonId = event.target.id;
             play(buttonId)
         });
@@ -53,10 +58,18 @@ function bildListSongs(){
  }
  getsongs()
 
- function play(mus){   
+ function play(mus){ 
+
+    console.log('aaf'+audio)
     
-    
-    if (audio == null) {console.log(JSON.stringify(mus))
+    if (song == ''||mus!==song){
+        if(mus!==song&&song !== ''){
+            player=true
+            console.log(player)
+        }
+        console.log(player)
+        song=mus
+       
        fetch('/auth/music', {
                     method: 'POST',
                     headers: {
@@ -70,16 +83,22 @@ function bildListSongs(){
         })
             .then((data) => {
                 const audioData = data.data.data;
+                console.log(audio)
                 let blob = new Blob([new Uint8Array(audioData)], {
                     type: data.contentType,
                 });
-
+               
                 console.log(audioData);
              
                 const audioUrl = URL.createObjectURL(blob);
 
-                // Создаем новый аудиоэлемент
-                return (audio = new Audio(audioUrl));
+                audio=''
+                if(player==true){
+                    
+                    player=false
+                    console.log(player)
+                }
+                audio = new Audio(audioUrl)
                 audio.play();
             })
         } else {
