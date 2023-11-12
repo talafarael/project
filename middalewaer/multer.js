@@ -3,7 +3,7 @@ const multer=require('multer');
 const cors = require("cors")
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,'Images')
+        cb(null,'images')
     },filename:(req,file,cb)=>{
         console.log(file)
         cb(null,Date.now()+path.extname(file.originalname))
