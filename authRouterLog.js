@@ -9,10 +9,11 @@ const autor=require('./authautor')
 const upload=require('./middalewaer/multer')
 const uploadimg=require('./middalewaer/multerimg')
 
-
+router.get('/getsongs',authMusicController.getSongs)
 router.post('/creatautor',uploadimg.single('autor'),autor.creatAutor)
 router.post('/musiccreate',upload.single('music1'),authMusicController.musiccreate)
-router.get ('/getmusic',authMusicController.getmusic)
+router.post('/music',authMusicController.getmusic)
+router.post('/test',authMusicController.test)
 router.post('/register',login.register)
 router.get ('/sendemail',login.sendemail)
 router.post('/registercheck',login.registercheck)

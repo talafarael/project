@@ -62,6 +62,7 @@ app.use(express.json())
 //         return res.status(500).json({ error: 'Internal server error' });
 //     }
 // })
+
 app.use('/auth',authRouter)
 start=async()=>{  
     try {

@@ -1,7 +1,10 @@
+
+
 const musicForm = document.getElementById('musicForm');
 const button = document.querySelector('.button');
 let playButton = document.querySelector('.playmusic');
-
+let musicMass=[]
+const musicList=document.querySelector('.musicList')
 musicForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const name = document.querySelector('.name').value
@@ -26,16 +29,45 @@ musicForm.addEventListener('submit', async (event) => {
     }
 });
  let audio = null;
-playButton.addEventListener('click', function () {
-   
-    if (audio == null) {
-        fetch('/auth/getmusic')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+function bildListSongs(){
+    var html = "";
+    for (var i = 0; i < musicMass.length; i++) {
+        
+        html +=`<button class="playButton"  id=${musicMass[i].idpath}>play</button> <h1> ${musicMass[i].songs} </h1>`;
+    }
+    
+
+    musicList.innerHTML = html
+    var playButtons = document.getElementsByClassName("playButton");
+    for (var j = 0; j < playButtons.length; j++) {
+        playButtons[j].addEventListener("click", function(event) {
+            var buttonId = event.target.id;
+            play(buttonId)
+        });
+    }
+}
+
+ function getsongs(){
+    fetch('/auth/getsongs').then(res=>res.json()).then(data=>{musicMass=data
+        bildListSongs()})
+ }
+ getsongs()
+
+ function play(mus){   
+    
+    
+    if (audio == null) {console.log(JSON.stringify(mus))
+       fetch('/auth/music', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: mus })
+                })
+                .then(response => {
+           
+            return response.json();
+        })
             .then((data) => {
                 const audioData = data.data.data;
                 let blob = new Blob([new Uint8Array(audioData)], {
@@ -43,7 +75,7 @@ playButton.addEventListener('click', function () {
                 });
 
                 console.log(audioData);
-                // // Создаем объект URL для Blob
+             
                 const audioUrl = URL.createObjectURL(blob);
 
                 // Создаем новый аудиоэлемент
@@ -59,8 +91,5 @@ playButton.addEventListener('click', function () {
                 playButton.textContent = 'Воспроизвести мелодию';
             }
         }
-})
-
-
-    
+    }
 

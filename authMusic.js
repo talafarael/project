@@ -36,13 +36,33 @@ class authMusic {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
-
+    async getSongs(req,res){
+        try{
+            const songs=await Songs.find()
+            res.json(songs);
+        }catch(e){
+            console.error('Ошибка при сохранении музыки:', e);
+            res.status(500).send('Произошла ошибка при сохранении музыки.');
+        }
+        }
+   
     async getmusic(req, res) {
         try {
-            const music = await Music.findOne({ name: 'kd' });
-
+            const {data}=req.body
+            console.log(data)
+            const music = await Music.findOne({ _id:data});
+            console.log(music)
             res.json(music);
         } catch (error) {
+            console.error('Ошибка при сохранении музыки:', error);
+            res.status(500).send('Произошла ошибка при сохранении музыки.');
+        }
+    }
+    async test(req,res){
+        try{
+            const {mus}=req.body
+            console.log(mus)
+        }catch(error) {
             console.error('Ошибка при сохранении музыки:', error);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
         }
