@@ -11,9 +11,9 @@ const cors = require("cors")
 const path = require('path');
 const multer=require('multer');
 const { required } = require('joi');
-const GridFsStorage=require('multer-gridfs-storage')
+
 const methodOverride=require('method-override')
-const Grid=require('gridfs-stream')
+
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,'Images')
