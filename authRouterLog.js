@@ -20,5 +20,5 @@ router.post('/register',login.register)
 router.get ('/sendemail',login.sendemail)
 router.post('/registercheck',login.registercheck)
 router.post('/login',login.login)
-router.get('./getusers',login.getusers)
+router.get('/getusers',login.getusers)
 module.exports=router
