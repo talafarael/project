@@ -23,6 +23,7 @@ class authMusic {
                 autor: '',
                 songs: name,
                 idpath: music._id,
+                like:0
             });
             songs.save();
 

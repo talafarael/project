@@ -12,6 +12,15 @@ const generateAccessToken = (id) => {
     return jwt.sign(playold, process.env.SECRET, { expiresIn: '24h' });
 };
 class authlogin {
+    async getusers(req,res){
+        try{
+            const user=await User.find()
+            res.json(user);
+        }catch(e){
+            console.error('Ошибка при сохранении музыки:', e);
+            res.status(500).send('Произошла ошибка при сохранении музыки.');
+        }
+        }
     async register(req, res) {
         try {
             const { name, email, password } = req.body;

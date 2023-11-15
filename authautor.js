@@ -17,6 +17,9 @@ class Autor{
        })
        await autors.save()
        console.log('all good')
+       return res.status(200).json({
+        redirect: '/',
+    });
     }catch(e){
         console.log(e)
     }

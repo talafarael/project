@@ -1,5 +1,3 @@
-
-
 const musicForm = document.getElementById('musicForm');
 const button = document.querySelector('.button');
 let playButton = document.querySelector('.playmusic');
@@ -44,7 +42,8 @@ function bildListSongs(){
     var playButtons = document.getElementsByClassName("playButton");
     for (var j = 0; j < playButtons.length; j++) {
         playButtons[j].addEventListener("click", function(event) {
-            if (audio!== ''){ audio.pause();} 
+            
+
           
             var buttonId = event.target.id;
             play(buttonId)
@@ -63,6 +62,7 @@ function bildListSongs(){
     console.log('aaf'+audio)
     
     if (song == ''||mus!==song){
+        if (audio!== ''){ audio.pause();} 
         if(mus!==song&&song !== ''){
             player=true
             console.log(player)

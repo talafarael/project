@@ -1,5 +1,6 @@
 const Router=require('express')
 const router =new Router()
+const usermiddalewaer=require('./middalewaer/user_middalewaer')
 const login=require('./authlogin')
 const authMusicController=require('./authMusic')
 const path = require('path');
@@ -8,6 +9,7 @@ const cors = require("cors")
 const autor=require('./authautor')
 const upload=require('./middalewaer/multer')
 const uploadimg=require('./middalewaer/multerimg')
+
 
 router.get('/getsongs',authMusicController.getSongs)
 router.post('/creatautor',uploadimg.single('autor'),autor.creatAutor)
@@ -18,4 +20,5 @@ router.post('/register',login.register)
 router.get ('/sendemail',login.sendemail)
 router.post('/registercheck',login.registercheck)
 router.post('/login',login.login)
+router.get('./getusers',login.getusers)
 module.exports=router
