@@ -5,6 +5,17 @@ const Music = require('./model/music');
 const path = require('path');
 const Songs = require('./model/song');
 class authMusic {
+   async musiclike(req, res){
+    try{
+        const {like_id}=req.body
+        like_id
+
+    }catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    }
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
