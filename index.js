@@ -38,6 +38,10 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'ejs')));
 app.use(cors());
 
+app.use(cors({
+    origin: process.env.Domin, // Укажите разрешенный источник
+    credentials: true // Разрешить передачу учетных данных (если требуется)
+  }))
 app.use(express.json())
 // app.post('/auth/musiccreate',upload.single('music1'),(req, res)=>{ 
 //     try {
