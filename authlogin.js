@@ -104,7 +104,7 @@ class authlogin {
                     username: name,
                     email: email,
                     role: 'user',
-                 
+                    liker_songs:[],
                     password: hashPassword,
                 });
                 user.save();

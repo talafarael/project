@@ -1,10 +1,45 @@
 const util = require('util');
 const fs = require('fs');
+const User=require('./model/schema')
+const jwt = require('jsonwebtoken');
 const writeFileAsync = util.promisify(fs.writeFile);
 const Music = require('./model/music');
 const path = require('path');
 const Songs = require('./model/song');
 class authMusic {
+    async musiclike(req, res){
+        try{
+            const {like_id}=req.body
+            const token = req.cookies.token
+            const decodedData = await jwt.verify(token,process.env.secret);
+            const id = await decodedData.id;
+            const users = await User.findById(id);
+            console.log(users)
+            console.log( like_id) 
+            const songs=await Songs.findOne({_id:like_id});
+            if (users.liker_songs.includes(like_id)) {
+                users.liker_songs.splice(like_id, 1)
+                songs.like=+songs.like-1
+                users.save()
+                songs.save()
+               
+              } else {
+                users.liker_songs.push(like_id)
+             
+                console.log(songs)
+                songs.like=+songs.like+1
+                users.save()
+                songs.save()
+                
+              }
+    return res
+                .status(200)
+                .json({ message: 'Music file uploaded successfully.' });
+        }catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
