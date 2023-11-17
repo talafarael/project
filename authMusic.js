@@ -7,39 +7,38 @@ const Music = require('./model/music');
 const path = require('path');
 const Songs = require('./model/song');
 class authMusic {
-    async musiclike(req, res){
-        try{
-            const {like_id}=req.body
-            const token = req.cookies.token
-            const decodedData = await jwt.verify(token,process.env.secret);
-            const id = await decodedData.id;
-            const users = await User.findById(id);
-            console.log(users)
-            console.log( like_id) 
-            const songs=await Songs.findOne({_id:like_id});
-            if (users.liker_songs.includes(like_id)) {
-                users.liker_songs.splice(like_id, 1)
-                songs.like=+songs.like-1
-                users.save()
-                songs.save()
-               
-              } else {
-                users.liker_songs.push(like_id)
-             
-                console.log(songs)
-                songs.like=+songs.like+1
-                users.save()
-                songs.save()
-                
-              }
-    return res
-                .status(200)
-                .json({ message: 'Music file uploaded successfully.' });
-        }catch (error) {
+    async  musiclike(req, res) {
+        try {
+            const { like_id } = req.body;
+            const token = req.cookies.token;
+            const decodedData = await jwt.verify(token, process.env.secret);
+            const id = decodedData.id;
+    
+            const user = await User.findById(id);
+            const song = await Songs.findById(like_id);
+    
+            if (!user || !song) {
+                return res.status(404).json({ error: 'Користувач або пісню не знайдено' });
+            }
+    
+            if (user.liker_songs.includes(like_id)) {
+                user.liker_songs.pull(like_id);
+                song.like -= 1;
+            } else {
+                user.liker_songs.push(like_id);
+                song.like += 1;
+            }
+    
+            await user.save();
+            await song.save();
+    
+            return res.status(200).json({ message: 'Музичний файл успішно оновлено.' });
+        } catch (error) {
             console.error(error);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: 'Внутрішня помилка сервера' });
         }
     }
+    
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
