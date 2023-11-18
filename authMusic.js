@@ -1,21 +1,44 @@
 const util = require('util');
 const fs = require('fs');
+const User=require('./model/schema')
+const jwt = require('jsonwebtoken');
 const writeFileAsync = util.promisify(fs.writeFile);
 const Music = require('./model/music');
 const path = require('path');
 const Songs = require('./model/song');
 class authMusic {
-   async musiclike(req, res){
-    try{
-        const {like_id}=req.body
-        like_id
-
-    }catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
+    async  musiclike(req, res) {
+        try {
+            const { like_id } = req.body;
+            const token = req.cookies.token;
+            const decodedData = await jwt.verify(token, process.env.secret);
+            const id = decodedData.id;
+    
+            const user = await User.findById(id);
+            const song = await Songs.findById(like_id);
+    
+            if (!user || !song) {
+                return res.status(404).json({ error: 'Користувач або пісню не знайдено' });
+            }
+    
+            if (user.liker_songs.includes(like_id)) {
+                user.liker_songs.pull(like_id);
+                song.like -= 1;
+            } else {
+                user.liker_songs.push(like_id);
+                song.like += 1;
+            }
+    
+            await user.save();
+            await song.save();
+    
+            return res.status(200).json({ message: 'Музичний файл успішно оновлено.' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Внутрішня помилка сервера' });
+        }
     }
-
-    }
+    
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
