@@ -9,10 +9,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobB:
-    runs-on: ubuntu-latest
-    environment: xyz
-    needs: publish
+
+jobs:
+  Example-Actions-Job:
+    name: Exploring GitHub Actions
+    runs-on: self-hosted
+    steps:
 
     strategy:
       matrix:
