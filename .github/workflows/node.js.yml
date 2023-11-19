@@ -13,7 +13,7 @@ on:
 jobs:
   Example-Actions-Job:
     name: Exploring GitHub Actions
-    runs-on:ubuntu-latest    
+    runs-on: ubuntu-latest    
 
     strategy:
       matrix:
