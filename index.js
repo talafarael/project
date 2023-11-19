@@ -30,11 +30,9 @@ app.use(express.static(path.join(__dirname,'ejs')));
 
 
 app.use(express.json())
-const corsConfig = {
-  credentials: true,
-  origin: true,
-};
-app.use(cors(corsConfig));
+app.use(cors({
+  credential: true,
+  origin: true}));
 
 app.use('/auth',authRouter)
 start=async()=>{  
