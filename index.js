@@ -35,9 +35,10 @@ app.use(express.json())
 app.use('/auth',authRouter)
 start=async()=>{  
     try {
-await mongoose.connect('mongodb+srv://farael:farae1aer@cluster0.pkknndw.mongodb.net/')
-
-
+        await mongoose.connect('mongodb+srv://farael:farae1aer@cluster0.pkknndw.mongodb.net/', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+          });
      app.get('/autor', (req, res) => {
         res.render('creatautor');
     })
@@ -48,7 +49,7 @@ await mongoose.connect('mongodb+srv://farael:farae1aer@cluster0.pkknndw.mongodb.
         res.render('musicload');
     });  
       app.listen(PORT,()=>{console.log('server run')})
-}catch(e){
-        console.log(e)
-    }}
+} catch (e) {
+    console.error('Server start error:', e);
+  }}
     start()
