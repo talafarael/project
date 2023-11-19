@@ -17,8 +17,9 @@ const methodOverride=require('method-override')
 
 const PORT=process.env.PORT||3000
 app.use(cors({
-  origin: true, // Увага: це дозволить доступ з усіх джерел
-  credentials: true // Дозвіл на передачу облікових даних
+  credential: true,
+  origin: true, 
+  
 }));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname,'ejs'));
