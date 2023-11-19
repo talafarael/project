@@ -156,7 +156,7 @@ class authlogin {
             secure: true // Куки будуть використовувати тільки за HTTPS
         });
         return res.status(200).json({
-      token
+            message:"token creat"
         });
         }catch(e){
             console.error(e);
