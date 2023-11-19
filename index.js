@@ -10,13 +10,16 @@ const bodyParser = require('body-parser');
 const cors = require("cors")
 const path = require('path');
 const multer=require('multer');
-const cookieParser = require('cookie-parser')
+
 
 const methodOverride=require('method-override')
 
 
 const PORT=process.env.PORT||3000
-
+app.use(cors({
+  origin: '*', // Увага: це дозволить доступ з усіх джерел
+  credentials: true // Дозвіл на передачу облікових даних
+}));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname,'ejs'));
 app.use(express.urlencoded({ extended: true }));
@@ -27,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'ejs')));
 app.use(cors());
-app.use(cookieParser())
+
 
 app.use(express.json())
 
