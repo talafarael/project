@@ -156,7 +156,12 @@ class authlogin {
             secure: true // Куки будуть використовувати тільки за HTTPS
         });
         return res.status(200).json({
-            redirect: '/',
+            res.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 86400 * 1000,
+                sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
+                secure: true // Куки будуть використовувати тільки за HTTPS
+            });
         });
         }catch(e){
             console.error(e);
