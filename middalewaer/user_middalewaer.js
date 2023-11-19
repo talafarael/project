@@ -11,7 +11,9 @@ module.exports=async function(req, res, next) {
     const decodedData = await jwt.verify(token,process.env.secret);
             const id = await decodedData.id;
             const users = await User.findById(id);
-            if(users){next()}
+            if(users){next()}else{
+                
+            }
             
         } catch (e) {
             console.log(e);
