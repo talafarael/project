@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors")
 const path = require('path');
 const multer=require('multer');
-
+const cookieParser = require('cookie-parser')
 
 const methodOverride=require('method-override')
 
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'ejs')));
 app.use(cors());
-
+app.use(cookieParser())
 
 app.use(express.json())
 
