@@ -30,9 +30,9 @@ app.use(express.static(path.join(__dirname,'ejs')));
 
 
 app.use(express.json())
-app.use(cors({
+app.use(cors({ origin: true,
   credential: true,
-  origin: true}));
+ }));
 
 app.use('/auth',authRouter)
 start=async()=>{  
