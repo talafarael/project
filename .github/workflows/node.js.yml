@@ -9,10 +9,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
-  build:
-
+jobB:
     runs-on: ubuntu-latest
+    environment: xyz
+    needs: publish
 
     strategy:
       matrix:
