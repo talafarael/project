@@ -155,6 +155,13 @@ class authlogin {
             sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
             secure: true // Куки будуть використовувати тільки за HTTPS
         });
+        res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
+        res.set('Access-Control-Allow-Credentials', 'true');
+        // access-control-expose-headers allows JS in the browser to see headers other than the default 7
+        res.set(
+          'Access-Control-Expose-Headers',
+          'date, etag, access-control-allow-origin, access-control-allow-credentials'
+        );
         return res.status(200).json({
             message:"token creat"
         });
