@@ -149,19 +149,15 @@ class authlogin {
                 .json({ message: `Введен неверный пароль` });
         }
         const token = generateAccessToken(user._id);
-        // res.cookie('token', token, {
-        //     httpOnly: true,
-        //     maxAge: 86400 * 1000,
-        //     sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
-        //     secure: true // Куки будуть використовувати тільки за HTTPS
-        // });
-        return  res.cookie('token', token, {
-                httpOnly: true,
-                maxAge: 86400 * 1000,
-                sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
-                secure: true // Куки будуть використовувати тільки за HTTPS
-            });
-      
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 86400 * 1000,
+            sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
+            secure: true // Куки будуть використовувати тільки за HTTPS
+        });
+        return res.status(200).json({
+      token
+        });
         }catch(e){
             console.error(e);
             res.status(400).json({ message: 'Registration error' });
