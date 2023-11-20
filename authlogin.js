@@ -152,10 +152,10 @@ class authlogin {
         res.cookie('token', token, {
             httpOnly: true,
             maxAge: 86400 * 1000,
-            sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
-            secure: true // Куки будуть використовувати тільки за HTTPS
+            sameSite: 'None', 
+            secure: true 
         });
-       
+        header('Access-Control-Allow-Credentials: true')
         return res.status(200).json({
             message:"token creat"
         });
