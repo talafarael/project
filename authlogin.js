@@ -155,7 +155,7 @@ class authlogin {
             sameSite: 'None', 
             secure: true 
         });
-        header('Access-Control-Allow-Credentials: true')
+        
         return res.status(200).json({
             message:"token creat"
         });
