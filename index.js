@@ -28,11 +28,11 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'ejs')));
 
 
-
+// { origin: '*',
+//   credential: true,
+//  }
 app.use(express.json())
-app.use(cors({ origin: '*',
-  credential: true,
- }));
+app.use(cors());
 // app.use(cors({
 //   origin: function(origin, callback){
 //     return callback(null, true);
