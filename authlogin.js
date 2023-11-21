@@ -150,10 +150,11 @@ class authlogin {
         }
         const token = generateAccessToken(user._id);
         res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 86400 * 1000,
-            sameSite: 'None', 
-            secure: true 
+            maxAge: 86400, // Время жизни куки в секундах
+            httpOnly: true, // Недоступность куки из JavaScript на клиенте
+            secure: true, // Передача куки только через HTTPS
+            sameSite: 'none',
+           
         });
         
         return res.status(200).json({
