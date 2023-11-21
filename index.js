@@ -27,12 +27,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'ejs')));
 
-const access=process.env.ACCESSCOOKIE
+
 
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-  origin:access, // Разрешить запросы с любых источников (можно указать конкретный домен)
+  origin:'https://fe-project-ochre.vercel.app', // Разрешить запросы с любых источников (можно указать конкретный домен)
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Разрешенные HTTP-методы
   credentials: true,// Разрешение передачи куки и авторизационных заголовков
 }));
