@@ -6,6 +6,7 @@ const writeFileAsync = util.promisify(fs.writeFile);
 const Music = require('./model/music');
 const path = require('path');
 const Songs = require('./model/song');
+const Autors=require('./model/autor')
 class authMusic {
     async  musiclike(req, res) {
         try {
@@ -73,8 +74,12 @@ class authMusic {
     }
     async getSongs(req,res){
         try{
-            const songs=await Songs.find()
-            res.json(songs);
+            const {autor}=req.body
+            
+            const autors=await Autors.find(
+              {  autor:autor})
+            // const songs=await Songs.find(autor)
+            res.json(autors);
         }catch(e){
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
