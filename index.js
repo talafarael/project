@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname,'ejs')));
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-  origin:'http://127.0.0.1:5500', // Разрешить запросы с любых источников (можно указать конкретный домен)
+  origin:process.env.ACCESSCOOKIE, // Разрешить запросы с любых источников (можно указать конкретный домен)
  
   credentials: true,// Разрешение передачи куки и авторизационных заголовков
 }));
