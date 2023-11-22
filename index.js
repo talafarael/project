@@ -6,7 +6,7 @@ const app=express()
 const fs=require('fs')
 const Music=require('./model/music')
 const bodyParser = require('body-parser');
-// var fileupload = require("express-fileupload");
+
 const cors = require("cors")
 const path = require('path');
 const multer=require('multer');
@@ -32,25 +32,20 @@ app.use(express.static(path.join(__dirname,'ejs')));
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-  origin:'https://fe-project-ochre.vercel.app', // Разрешить запросы с любых источников (можно указать конкретный домен)
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Разрешенные HTTP-методы
+  origin:'http://127.0.0.1:5500', // Разрешить запросы с любых источников (можно указать конкретный домен)
+ 
   credentials: true,// Разрешение передачи куки и авторизационных заголовков
 }));
 
-// app.use(cors({
-//   origin: function(origin, callback){
-//     return callback(null, true);
-//   },
-//   optionsSuccessStatus: 200,
-//   credentials: true
-// }));
+
 app.use('/auth',authRouter)
 start=async()=>{  
     try {
-        await mongoose.connect('mongodb+srv://farael:farae1aer@cluster0.pkknndw.mongodb.net/', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-          });
+    
+    await mongoose.connect(process.env.MONGO, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
      app.get('/autor', (req, res) => {
         res.render('creatautor');
     })
@@ -65,3 +60,4 @@ start=async()=>{
     console.error('Server start error:', e);
   }}
     start()
+module.exports=app
