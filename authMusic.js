@@ -76,10 +76,14 @@ class authMusic {
         try{
             const {autor}=req.body
             
-            const autors=await Autors.find(
-              {  autor:autor})
-            // const songs=await Songs.find(autor)
-            res.json(autors);
+            const autors=await Autors.find({  autor:autor})
+           const music = await Songs.find({autor:autor});
+           const arr={
+            'autors':autors,
+            'music':[music]
+           }
+           console.log(arr)
+            res.json(arr);
         }catch(e){
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
@@ -88,11 +92,13 @@ class authMusic {
    
     async getmusic(req, res) {
         try {
-            const {data}=req.body
-            console.log(data)
-            const music = await Music.findOne({ _id:data});
-            console.log(music)
-            res.json(music);
+            const {id}=req.body
+            console.log(id)
+            const songs = await Songs.findOne({ _id:id});
+            
+            const music = await Music.findOne({ _id:songs.idpath});
+            console.log(songs)
+            res.json({music,songs});
         } catch (error) {
             console.error('Ошибка при сохранении музыки:', error);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
