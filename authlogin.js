@@ -109,7 +109,7 @@ class authlogin {
                 });
                 user.save();
                 return res.status(200).json({
-                    redirect: '/index',
+                    message:'all good'
                 });
             }
             console.log(data);
