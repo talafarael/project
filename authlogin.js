@@ -149,12 +149,16 @@ class authlogin {
                 .json({ message: `Введен неверный пароль` });
         }
         const token = generateAccessToken(user._id);
+        const ALMOST_ONE_HOUR_MS = 60 * 60 * 1000;
         res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 86400 * 1000,
-            sameSite: 'None', // Дозволяє доступ до куків з інших сайтів
-            secure: true // Куки будуть використовувати тільки за HTTPS
-        });
+            maxAge: ALMOST_ONE_HOUR_MS, // Время жизни куки в секундах
+            // Недоступность куки из JavaScript на клиенте
+             // Передача куки только через HTTPS
+            sameSite: 'none',
+            domain: '127.0.0.1',
+            expires: new Date(Date.now() + ALMOST_ONE_HOUR_MS),
+           
+          });
         return res.status(200).json({
             message:"token creat"
         });
