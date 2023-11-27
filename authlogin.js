@@ -12,15 +12,15 @@ const generateAccessToken = (id) => {
     return jwt.sign(playold, process.env.SECRET, { expiresIn: '24h' });
 };
 class authlogin {
-    async getusers(req,res){
-        try{
-            const users=await User.find()
+    async getusers(req, res) {
+        try {
+            const users = await User.find();
             res.json(users);
-        }catch(e){
+        } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
         }
-        }
+    }
     async register(req, res) {
         try {
             const { name, email, password } = req.body;
@@ -49,7 +49,7 @@ class authlogin {
             const data = tempData.getTempData('registrationData');
 
             const status = data.status;
-            console.log(data)
+            console.log(data);
             if (!status) {
                 const emailUser = data.email;
 
@@ -71,7 +71,7 @@ class authlogin {
                         email: email,
                         hashpassword: hashPassword,
                         status: newstatus,
-                        num:num
+                        num: num,
                     },
                     30 * 60 * 1000
                 );
@@ -84,16 +84,15 @@ class authlogin {
             res.status(400).json({ message: 'Registration error' });
         }
     }
-    
+
     async registercheck(req, res) {
         try {
             const data = tempData.getTempData('registrationData');
-            const num =data.num
+            const num = data.num;
             const newstatus = true;
             const name = data.name;
             const email = data.email;
             const hashPassword = data.hashpassword;
-            
 
             const { password } = req.body;
             const status = data.status;
@@ -104,7 +103,7 @@ class authlogin {
                     username: name,
                     email: email,
                     role: 'user',
-                    liker_songs:[],
+                    liker_songs: [],
                     password: hashPassword,
                 });
                 user.save();
@@ -120,7 +119,7 @@ class authlogin {
                     email: email,
                     hashpassword: hashPassword,
                     status: status,
-                    num:num,
+                    num: num,
                 },
                 30 * 60 * 1000
             );
@@ -133,36 +132,31 @@ class authlogin {
             res.status(400).json({ message: 'Registration error' });
         }
     }
-    async login(req,res){
-        try{
-           const {email,password} =req.body
-           const user=await User.findOne({email})
-           if (!user) {
-            return res.status(400).json({
-                message: 'Пользователь с таким именем не существует ',
+    async login(req, res) {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(400).json({
+                    message: 'Пользователь с таким именем не существует ',
+                });
+            }
+            const validPassword = bcrypt.compareSync(password, user.password);
+            if (!validPassword) {
+                return res
+                    .status(400)
+                    .json({ message: `Введен неверный пароль` });
+            }
+            const token = generateAccessToken(user._id);
+            const ALMOST_ONE_HOUR_MS = 60 * 60 * 1000;
+            res.cookie('token', token, {
+                maxAge: ALMOST_ONE_HOUR_MS,
+                expires: new Date(Date.now() + ALMOST_ONE_HOUR_MS),
             });
-        }
-        const validPassword = bcrypt.compareSync(password, user.password);
-        if (!validPassword) {
-            return res
-                .status(400)
-                .json({ message: `Введен неверный пароль` });
-        }
-        const token = generateAccessToken(user._id);
-        const ALMOST_ONE_HOUR_MS = 60 * 60 * 1000;
-        res.cookie('token', token, {
-            maxAge: ALMOST_ONE_HOUR_MS, // Время жизни куки в секундах
-            // Недоступность куки из JavaScript на клиенте
-             // Передача куки только через HTTPS
-            sameSite: 'none',
-            domain: '127.0.0.1',
-            expires: new Date(Date.now() + ALMOST_ONE_HOUR_MS),
-           
-          });
-        return res.status(200).json({
-            message:"token creat"
-        });
-        }catch(e){
+            return res.status(200).json({
+                message: 'token creat',
+            });
+        } catch (e) {
             console.error(e);
             res.status(400).json({ message: 'Registration error' });
         }
