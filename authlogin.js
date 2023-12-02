@@ -153,8 +153,8 @@ class authlogin {
                 maxAge: ALMOST_ONE_HOUR_MS,
                 httpOnly: true, 
                 secure: true, 
-                sameSite: 'None'
-              
+                sameSite: 'None',
+                domain:'https://fe-project-ochre.vercel.app'
             });
             return res.status(200).json({
                 message: 'token creat',
