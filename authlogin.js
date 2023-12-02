@@ -151,11 +151,10 @@ class authlogin {
             const ALMOST_ONE_HOUR_MS = 60 * 60 * 10000;
             res.cookie('token', token, {
                 maxAge: ALMOST_ONE_HOUR_MS,
-                httpOnly: true, 
+                sameSite:true,
                 secure: true, 
-                sameSite: 'None',
-                overwrite: true,
-                domain:'https://fe-project-ochre.vercel.app'
+                
+               
             });
             return res.status(200).json({
                 message: 'token creat',
