@@ -154,6 +154,7 @@ class authlogin {
                 httpOnly: true, 
                 secure: true, 
                 sameSite: 'None',
+                overwrite: true,
                 domain:'https://fe-project-ochre.vercel.app'
             });
             return res.status(200).json({
