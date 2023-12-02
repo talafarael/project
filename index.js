@@ -34,7 +34,8 @@ app.use(cors({
   origin:process.env.ACCESSCOOKIE, 
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type, Authorization, Set-Cookie'
+  allowedHeaders: 'Content-Type, Authorization, Set-Cookie',
+  domain:'https://fe-project-ochre.vercel.app',
 }));
 
 
