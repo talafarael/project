@@ -30,14 +30,11 @@ app.use(express.static(path.join(__dirname,'ejs')));
 
 app.use(express.json())
 app.use(cookieParser());
-app.use(cors({
-  origin:process.env.ACCESSCOOKIE, // Разрешить запросы с любых источников (можно указать конкретный домен)
-
-
-  exposedHeaders: ["set-cookie"],
-  credentials: true,// Разрешение передачи куки и авторизационных заголовков
+pp.use(cors({
+  origin:process.env.ACCESSCOOKIE, 
+  credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type, Authorization'
+  allowedHeaders: 'Content-Type, Authorization, Set-Cookie'
 }));
 
 
