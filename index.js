@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname,'ejs')));
 
 app.use(express.json())
 app.use(cookieParser());
-pp.use(cors({
+app.use(cors({
   origin:process.env.ACCESSCOOKIE, 
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
