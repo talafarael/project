@@ -151,7 +151,10 @@ class authlogin {
             const ALMOST_ONE_HOUR_MS = 60 * 60 * 1000;
             res.cookie('token', token, {
                 maxAge: ALMOST_ONE_HOUR_MS,
-                expires: new Date(Date.now() + ALMOST_ONE_HOUR_MS),
+                httpOnly: true, 
+                secure: true, 
+                sameSite: 'None'
+              
             });
             return res.status(200).json({
                 message: 'token creat',

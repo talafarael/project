@@ -32,8 +32,8 @@ app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
   origin:process.env.ACCESSCOOKIE, // Разрешить запросы с любых источников (можно указать конкретный домен)
-  secure: true,
-  sameSite: 'None',
+
+
   exposedHeaders: ["set-cookie"],
   credentials: true,// Разрешение передачи куки и авторизационных заголовков
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
