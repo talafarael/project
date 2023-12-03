@@ -89,7 +89,27 @@ class authMusic {
             res.status(500).send('Произошла ошибка при сохранении музыки.');
         }
         }
-   
+        async get_Songs_For_Creat_Mainpage(req,res){
+            try{
+                const music = await Songs.find()
+                const autor= await Autors.find()
+                const arr={
+                    music:music,
+                    autor:autor
+                }
+                console.log(arr)
+                return res
+                .status(200)
+                .json({arr});
+
+
+            }catch(error) {
+                console.error('Ошибка при сохранении музыки:', error);
+                res.status(500).send('Произошла ошибка при сохранении музыки.');
+            }
+            
+
+        }
     async getmusic(req, res) {
         try {
             const {id}=req.body

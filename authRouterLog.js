@@ -21,4 +21,5 @@ router.get ('/sendemail',login.sendemail)
 router.post('/registercheck',login.registercheck)
 router.post('/login',login.login)
 router.get('/getusers',login.getusers)
+router.get('/getsongsforcreatmainpage',authMusicController.get_Songs_For_Creat_Mainpage)
 module.exports=router
