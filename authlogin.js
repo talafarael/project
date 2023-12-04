@@ -108,7 +108,7 @@ class authlogin {
                 });
                 user.save();
                 return res.status(200).json({
-                    message:'all good'
+                    message: 'all good',
                 });
             }
             console.log(data);
@@ -148,17 +148,10 @@ class authlogin {
                     .json({ message: `Введен неверный пароль` });
             }
             const token = generateAccessToken(user._id);
-            const ALMOST_ONE_HOUR_MS = 60 * 60 * 10000;
-            res.cookie('token', token, {
-                maxAge: ALMOST_ONE_HOUR_MS,
-                
-                secure: true, 
-                sameSite: 'None',
-                overwrite: true,
-                domain:'https://fe-project-ochre.vercel.app'
-            });
+            console.log(token)
+
             return res.status(200).json({
-                message: 'token creat',
+                token:token
             });
         } catch (e) {
             console.error(e);
