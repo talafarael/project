@@ -7,14 +7,16 @@ class Autor{
     try{
       
         const {name,title}=req.body
-       
-       console.log(path.join(__dirname, 'img/', req.file.filename))
+    //    img:{data:fs.readFileSync(path.join(__dirname, 'img/', req.file.filename)),
+    //         contentType: 'audio/mpeg'},
+       console.log( req.file.path )
         const autors=new Autors({
-        img:{data:path.join(__dirname, 'img/', req.file.filename),
-            contentType: 'audio/mpeg'},
+       
         autor:name,
+        img:`https://project-49di.onrender.com/${req.file.path}`,
         title:title,
        })
+     
        await autors.save()
        console.log('all good')
        return res.status(200).json({
