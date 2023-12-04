@@ -51,22 +51,22 @@ class authMusic {
                 return res.status(400).json({ error: 'No file uploaded.' });
             }
 
-            const music = new Music({
-                data: fs.readFileSync(
-                    path.join(__dirname, 'images/', req.file.filename)
-                ),
-                contentType: 'audio/mpeg',
-            });
+            // const music = new Music({
+            //     data: fs.readFileSync(
+            //         path.join(__dirname, 'images/', req.file.filename)
+            //     ),
+            //     contentType: 'audio/mpeg',
+            // });
 
             const songs = new Songs({
                 autor: '',
                 songs: name,
-                idpath: music._id,
+                idpath:`https://project-49di.onrender.com/${req.file.path}`,
                 like: 0,
             });
             songs.save();
 
-            music.save();
+            // music.save();
 
             return res
                 .status(200)
