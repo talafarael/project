@@ -14,7 +14,7 @@ class authMusic {
 
             const decodedData = await jwt.verify(token, process.env.SECRET);
             const id = decodedData.id;
-            
+
             const user = await User.findById(id);
             const trimmedId = idlike.trim();
             const song = await Songs.findById(trimmedId);
@@ -77,11 +77,20 @@ class authMusic {
     }
     async get_Songs_For_autor(req, res) {
         try {
-          const { autor ,token} = req.body;
-          const user=User.findById(token)
-          console.log(user)
+            const { autor, token } = req.body;
+            if (token) {
+                const decodedData = await jwt.verify(token, process.env.SECRET);
+                const id = decodedData.id;
+               const id_User =id.trim()
+               console.log(id_User)
+                const user = await User.findById(id_User);
+                console.log(user);
+                const music = await Songs.find({ autor: autor })
+               return res.json({ music ,user});
+            }
+
             const music = await Songs.find({ autor: autor });
-            res.json({music,user});
+            res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
