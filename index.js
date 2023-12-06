@@ -16,6 +16,7 @@ const methodOverride=require('method-override')
 
 const PORT=process.env.PORT||3000
 app.use('/img', express.static('img'));
+app.use('/songsimg', express.static('songsimg'));
 app.use('/images', express.static('images'));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname,'ejs'));
