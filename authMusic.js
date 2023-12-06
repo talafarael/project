@@ -81,11 +81,10 @@ class authMusic {
             const { autor } = req.body;
 
             const autors = await Autors.find({ autor: autor });
-            const music = await Songs.find({ autor: autor });
+           
             const arr = {
                 autors: autors,
-                music: [music],
-            };
+                };
             console.log(arr);
             res.json(arr);
         } catch (e) {
