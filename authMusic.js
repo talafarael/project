@@ -78,7 +78,7 @@ class authMusic {
     async get_Songs_For_autor(req, res) {
         try {
           const { autor ,token} = req.body;
-          const user=User.findById(token).liker_songs
+          const user=User.findById(token)
           console.log(user)
             const music = await Songs.find({ autor: autor });
             res.json({music,user});
