@@ -47,9 +47,7 @@ class authMusic {
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
-            if (!req.file) {
-                return res.status(400).json({ error: 'No file uploaded.' });
-            }
+            
 
             // const music = new Music({
             //     data: fs.readFileSync(
@@ -57,11 +55,12 @@ class authMusic {
             //     ),
             //     contentType: 'audio/mpeg',
             // });
-
+console.log(req.files['img'][0].path)
             const songs = new Songs({
                 autor: '',
                 songs: name,
-                idpath:`https://project-49di.onrender.com/${req.file.path}`,
+                img_autor:`https://project-49di.onrender.com/${req.files['img'][0].path}`,
+                idpath:`https://project-49di.onrender.com/${req.files['music1'][0].path}`,
                 like: 0,
             });
             songs.save();
