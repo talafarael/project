@@ -12,7 +12,7 @@ const uploadimg=require('./middalewaer/multerimg')
 
 router.post('/musiclike',usermiddalewaer,authMusicController.musiclike)
 router.post('/getsongs',authMusicController.getSongs)
-router.post('/creatautor',uploadimg.single('autor'),autor.creatAutor)
+router.post('/creatautor',uploadimg,autor.creatAutor)
 router.post('/musiccreate',upload.single('music1'),authMusicController.musiccreate)
 router.post('/music',authMusicController.getmusic)
 router.post('/test',authMusicController.test)
