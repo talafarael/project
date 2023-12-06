@@ -11,7 +11,7 @@ const autor=require('./authautor')
 const upload=require('./middalewaer/multer')
 const uploadimg=require('./middalewaer/multerimg')
 
-router.post('/musiclike',usermiddalewaer,authMusicController.musiclike)
+router.post('/musiclike',authMusicController.musicLike)
 router.post('/getsongs',authMusicController.getSongs)
 router.post('/creatautor',uploadimg,autor.creatAutor)
 router.post('/getsongsforautor',authMusicController.get_Songs_For_autor)

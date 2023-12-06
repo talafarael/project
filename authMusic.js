@@ -8,15 +8,16 @@ const path = require('path');
 const Songs = require('./model/song');
 const Autors = require('./model/autor');
 class authMusic {
-    async musiclike(req, res) {
+    async musicLike(req, res) {
         try {
-            const { like_id } = req.body;
-            const token = req.cookies.token;
-            const decodedData = await jwt.verify(token, process.env.secret);
-            const id = decodedData.id;
+            const { idlike, token } = req.body;
 
+            const decodedData = await jwt.verify(token, process.env.SECRET);
+            const id = decodedData.id;
+            
             const user = await User.findById(id);
-            const song = await Songs.findById(like_id);
+            const trimmedId = idlike.trim();
+            const song = await Songs.findById(trimmedId);
 
             if (!user || !song) {
                 return res
@@ -24,11 +25,11 @@ class authMusic {
                     .json({ error: 'Користувач або пісню не знайдено' });
             }
 
-            if (user.liker_songs.includes(like_id)) {
-                user.liker_songs.pull(like_id);
+            if (user.liker_songs.includes(idlike)) {
+                user.liker_songs.pull(idlike);
                 song.like -= 1;
             } else {
-                user.liker_songs.push(like_id);
+                user.liker_songs.push(idlike);
                 song.like += 1;
             }
 
@@ -47,7 +48,6 @@ class authMusic {
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
-            
 
             // const music = new Music({
             //     data: fs.readFileSync(
@@ -55,12 +55,12 @@ class authMusic {
             //     ),
             //     contentType: 'audio/mpeg',
             // });
-console.log(req.files['img'][0].path)
+            console.log(req.files['img'][0].path);
             const songs = new Songs({
                 autor: '',
                 songs: name,
-                img_autor:`https://project-49di.onrender.com/${req.files['img'][0].path}`,
-                idpath:`https://project-49di.onrender.com/${req.files['music1'][0].path}`,
+                img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
+                idpath: `https://project-49di.onrender.com/${req.files['music1'][0].path}`,
                 like: 0,
             });
             songs.save();
@@ -75,11 +75,13 @@ console.log(req.files['img'][0].path)
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
-    async get_Songs_For_autor(req,res){
+    async get_Songs_For_autor(req, res) {
         try {
-        const { autor } = req.body;
-        const music = await Songs.find({ autor: autor });
-        res.json(music)
+          const { autor ,token} = req.body;
+          const user=User.findById(token).liker_songs
+          console.log(user)
+            const music = await Songs.find({ autor: autor });
+            res.json({music,user});
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
@@ -90,10 +92,9 @@ console.log(req.files['img'][0].path)
             const { autor } = req.body;
 
             const autors = await Autors.find({ autor: autor });
-            
+
             const arr = {
                 autors: autors,
-               
             };
             console.log(arr);
             res.json(arr);
@@ -105,7 +106,7 @@ console.log(req.files['img'][0].path)
     async get_Songs_For_Creat_Mainpage(req, res) {
         try {
             const music = await Songs.find().limit(5);
-console.log('afa')
+            console.log('afa');
             const autor = await Autors.find().limit(5);
 
             const arr = {
