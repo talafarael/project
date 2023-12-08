@@ -17,6 +17,7 @@ class authMusic {
 
             const user = await User.findById(id);
             const trimmedId = idlike.trim();
+            console.log(idlike)
             const song = await Songs.findById(trimmedId);
 
             if (!user || !song) {
