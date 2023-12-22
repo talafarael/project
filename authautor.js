@@ -7,9 +7,8 @@ class Autor{
     try{
       
         const {name,title}=req.body
-    //    img:{data:fs.readFileSync(path.join(__dirname, 'img/', req.file.filename)),
-    //         contentType: 'audio/mpeg'},
-       console.log( req.files['autor1'][0].path)
+       
+
         const autors=new Autors({
        
         autor:name,

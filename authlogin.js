@@ -148,8 +148,11 @@ class authlogin {
                     .json({ message: `Введен неверный пароль` });
             }
             const token = generateAccessToken(user._id);
-            console.log(token)
-
+            const ALMOST_ONE_HOUR_MS = 60 * 60 * 10000;
+            res.cookie('token', token, {
+                maxAge: ALMOST_ONE_HOUR_MS,
+                expires: new Date(Date.now() + ALMOST_ONE_HOUR_MS),
+            });
             return res.status(200).json({
                 token:token
             });
