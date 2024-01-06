@@ -17,7 +17,7 @@ class authMusic {
 
             const user = await User.findById(id);
             const trimmedId = idlike.trim();
-            console.log(idlike)
+            console.log(idlike);
             const song = await Songs.findById(trimmedId);
 
             if (!user || !song) {
@@ -82,16 +82,16 @@ class authMusic {
             if (token) {
                 const decodedData = await jwt.verify(token, process.env.SECRET);
                 const id = decodedData.id;
-               const id_User =id.trim()
-               console.log(id_User)
+                const id_User = id.trim();
+                console.log(id_User);
                 const user = await User.findById(id_User);
                 console.log(user);
-                const music = await Songs.find({ autor: autor })
-               return res.json({ music ,user});
+                const music = await Songs.find({ autor: autor });
+                return res.json({ music, user });
             }
 
             const music = await Songs.find({ autor: autor });
-           return res.json({ music });
+            return res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
@@ -125,6 +125,15 @@ class authMusic {
             };
             console.log(arr);
             return res.status(200).json({ arr });
+        } catch (error) {
+            console.error('Ошибка при сохранении музыки:', error);
+            res.status(500).send('Произошла ошибка при сохранении музыки.');
+        }
+    }
+    async getSearchmusic(req, res) {
+        try {
+            const musics = await Songs.find({});
+            res.json(musics);
         } catch (error) {
             console.error('Ошибка при сохранении музыки:', error);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
