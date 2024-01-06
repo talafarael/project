@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname,'ejs')));
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-  origin:process.env.ACCESSCOOKIE, 
+  origin:"*", 
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type, Authorization, Set-Cookie',

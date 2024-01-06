@@ -1,8 +1,15 @@
 const Autors=require('./model/autor')
 
-const fs = require('fs');
-const path = require('path');
+
 class Autor{
+    async getauthor(req,res){
+        try{
+            const authors=await Autors.find({})
+            res.status(200).json(authors)
+        }catch(e){
+            console.log(e)
+        }
+    }
  async creatAutor(req,res){
     try{
       

@@ -91,7 +91,7 @@ class authMusic {
             }
 
             const music = await Songs.find({ autor: autor });
-            res.json({ music });
+           return res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
             res.status(500).send('Произошла ошибка при сохранении музыки.');
