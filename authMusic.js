@@ -132,8 +132,12 @@ class authMusic {
     }
     async getSearchmusic(req, res) {
         try {
-            const musics = await Songs.find({});
-            res.json(musics);
+            const {value}=req.body
+            console.log(value)
+            const musics = await Songs.find({ songs: { $regex: value, $options: 'i' } });
+            const author= await Autors.find({ autor: { $regex: value, $options: 'i' } });
+            const find={author:author,musics:musics}
+            res.json(find);
         } catch (error) {
             console.error('Ошибка при сохранении музыки:', error);
             res.status(500).send('Произошла ошибка при сохранении музыки.');

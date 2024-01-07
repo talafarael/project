@@ -10,6 +10,7 @@ class Autor{
             console.log(e)
         }
     }
+    
  async creatAutor(req,res){
     try{
       
@@ -35,5 +36,7 @@ class Autor{
         console.log(e)
     }
  }
+
+ 
 }
 module.exports=new Autor()
