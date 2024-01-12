@@ -79,6 +79,8 @@ class authMusic {
     async get_Songs_For_autor(req, res) {
         try {
             const { autor, token } = req.body;
+            const decodeAuthore= decodeURIComponent(autor);
+            console.log(decodeAuthore)
             if (token) {
                 const decodedData = await jwt.verify(token, process.env.SECRET);
                 const id = decodedData.id;
@@ -90,7 +92,7 @@ class authMusic {
                 return res.json({ music, user });
             }
 
-            const music = await Songs.find({ autor: autor });
+            const music = await Songs.find({ autor: decodeAuthore});
             return res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
