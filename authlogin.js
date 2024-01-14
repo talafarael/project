@@ -148,7 +148,12 @@ class authlogin {
                     .json({ message: `Введен неверный пароль` });
             }
             const token = generateAccessToken(user._id);
-            console.log(token)
+            if(token==undefined){}
+            if (!validPassword) {
+                return res
+                    .status(400)
+                    .json({ message: `ошибка` });
+            }
 
             return res.status(200).json({
                 token:token
