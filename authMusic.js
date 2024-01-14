@@ -58,7 +58,7 @@ class authMusic {
             // });
             console.log(req.files['img'][0].path);
             const songs = new Songs({
-                autor: '',
+                autor: 'ПЕС ПАТРОН!!!',
                 songs: name,
                 img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
                 idpath: `https://project-49di.onrender.com/${req.files['music1'][0].path}`,
