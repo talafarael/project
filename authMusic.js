@@ -84,7 +84,7 @@ class authMusic {
             const { autor, token } = req.body;
             const decodeAuthore= decodeURIComponent(autor);
             console.log(decodeAuthore)
-            if (token&&token== undefined)  {
+            if (token&&token!= undefined)  {
                 const decodedData = await jwt.verify(token, process.env.SECRET);
                 const id = decodedData.id;
                 const id_User = id.trim();
