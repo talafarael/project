@@ -58,11 +58,10 @@ class authMusic {
             // });
             console.log(req.files['img'][0].path);
             const songs = new Songs({
-<<<<<<< HEAD
+
                 autor: 'ПЕС ПАТРОН!!!',
-=======
-                autor: 'Metallica',
->>>>>>> 72426867b68ed9133223683b5d87be0b1f44bca5
+
+
                 songs: name,
                 img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
                 idpath: `https://project-49di.onrender.com/${req.files['music1'][0].path}`,
