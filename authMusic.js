@@ -58,7 +58,11 @@ class authMusic {
             // });
             console.log(req.files['img'][0].path);
             const songs = new Songs({
+<<<<<<< HEAD
                 autor: 'ПЕС ПАТРОН!!!',
+=======
+                autor: 'Metallica',
+>>>>>>> 72426867b68ed9133223683b5d87be0b1f44bca5
                 songs: name,
                 img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
                 idpath: `https://project-49di.onrender.com/${req.files['music1'][0].path}`,
@@ -79,6 +83,8 @@ class authMusic {
     async get_Songs_For_autor(req, res) {
         try {
             const { autor, token } = req.body;
+            const decodeAuthore= decodeURIComponent(autor);
+            console.log(decodeAuthore)
             if (token) {
                 const decodedData = await jwt.verify(token, process.env.SECRET);
                 const id = decodedData.id;
@@ -90,7 +96,7 @@ class authMusic {
                 return res.json({ music, user });
             }
 
-            const music = await Songs.find({ autor: autor });
+            const music = await Songs.find({ autor: decodeAuthore});
             return res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
