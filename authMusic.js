@@ -45,7 +45,35 @@ class authMusic {
             return res.status(500).json({ error: 'Внутрішня помилка сервера' });
         }
     }
-
+    async saveMusic(req, res) {
+        try {
+            const { idSongs, token } = req.body;
+            console.log(idSongs, token)
+            if (!token) {
+                return res
+                    .status(500)
+                    .json({ error: 'aff' });
+            } 
+             console.log('fafa')
+            if(!Songs.find({ _id: idSongs })){
+                return res
+                .status(500)
+                .json({ error: 'gggg' });
+            }
+           
+            const decodedData = await jwt.verify(token, process.env.SECRET);
+            const id = decodedData.id;
+            const id_User = id.trim();
+            const user = await User.findById(id_User);
+           if(!user.saveMusic.includes(idSongs)){
+            user.saveMusic.push(idSongs)
+            user.save()
+            res.status(200).json({message:'all good'})
+           } 
+        } catch (e) {
+            return res.status(500).json({ error: 'Внутрішня помилка сервера' });
+        }
+    }
     async musiccreate(req, res) {
         try {
             const { name } = req.body;
@@ -58,9 +86,7 @@ class authMusic {
             // });
             console.log(req.files['img'][0].path);
             const songs = new Songs({
-
                 autor: 'ПЕС ПАТРОН!!!',
-
 
                 songs: name,
                 img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
@@ -82,9 +108,9 @@ class authMusic {
     async get_Songs_For_autor(req, res) {
         try {
             const { autor, token } = req.body;
-            const decodeAuthore= decodeURIComponent(autor);
-            console.log(decodeAuthore)
-            if (token&&token!= undefined)  {
+            const decodeAuthore = decodeURIComponent(autor);
+            console.log(decodeAuthore);
+            if (token && token != undefined) {
                 const decodedData = await jwt.verify(token, process.env.SECRET);
                 const id = decodedData.id;
                 const id_User = id.trim();
@@ -95,7 +121,7 @@ class authMusic {
                 return res.json({ music, user });
             }
 
-            const music = await Songs.find({ autor: decodeAuthore});
+            const music = await Songs.find({ autor: decodeAuthore });
             return res.json({ music });
         } catch (e) {
             console.error('Ошибка при сохранении музыки:', e);
@@ -137,11 +163,15 @@ class authMusic {
     }
     async getSearchmusic(req, res) {
         try {
-            const {value}=req.body
-            console.log(value)
-            const musics = await Songs.find({ songs: { $regex: value, $options: 'i' } });
-            const author= await Autors.find({ autor: { $regex: value, $options: 'i' } });
-            const find={author:author,musics:musics}
+            const { value } = req.body;
+            console.log(value);
+            const musics = await Songs.find({
+                songs: { $regex: value, $options: 'i' },
+            });
+            const author = await Autors.find({
+                autor: { $regex: value, $options: 'i' },
+            });
+            const find = { author: author, musics: musics };
             res.json(find);
         } catch (error) {
             console.error('Ошибка при сохранении музыки:', error);

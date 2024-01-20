@@ -10,7 +10,7 @@ const cors = require("cors")
 const autor=require('./authautor')
 const upload=require('./middalewaer/multer')
 const uploadimg=require('./middalewaer/multerimg')
-
+router.post('/savemusic',authMusicController.saveMusic)
 router.post('/musiclike',authMusicController.musicLike)
 router.post('/getsongs',authMusicController.getSongs)
 router.post('/creatautor',uploadimg,autor.creatAutor)
