@@ -45,31 +45,45 @@ class authMusic {
             return res.status(500).json({ error: 'Внутрішня помилка сервера' });
         }
     }
-    async saveMusic(req, res) {
+    async getSaveMusic(req, res) {
         try {
-            const { idSongs, token } = req.body;
-            console.log(idSongs, token)
-            if (!token) {
-                return res
-                    .status(500)
-                    .json({ error: 'aff' });
-            } 
-             console.log('fafa')
-            if(!Songs.find({ _id: idSongs })){
-                return res
-                .status(500)
-                .json({ error: 'gggg' });
-            }
+            const {  token } = req.body;
            
+            if (!token) {
+                return res.status(500).json({ error: 'aff' });
+            }
             const decodedData = await jwt.verify(token, process.env.SECRET);
             const id = decodedData.id;
             const id_User = id.trim();
             const user = await User.findById(id_User);
-           if(!user.saveMusic.includes(idSongs)){
-            user.saveMusic.push(idSongs)
-            user.save()
-            res.status(200).json({message:'all good'})
-           } 
+        console.log(user)
+            const music = await Songs.find({_id:{$in: user.saveMusic}})
+            return res.json(music)
+        } catch (e) {
+            return res.status(500).json({ error: 'Внутрішня помилка сервера' });
+        }
+    }
+    async saveMusic(req, res) {
+        try {
+            const { idSongs, token } = req.body;
+            console.log(idSongs, token);
+            if (!token) {
+                return res.status(500).json({ error: 'aff' });
+            }
+            console.log('fafa');
+            if (!Songs.find({ _id: idSongs })) {
+                return res.status(500).json({ error: 'gggg' });
+            }
+
+            const decodedData = await jwt.verify(token, process.env.SECRET);
+            const id = decodedData.id;
+            const id_User = id.trim();
+            const user = await User.findById(id_User);
+            if (!user.saveMusic.includes(idSongs)) {
+                user.saveMusic.push(idSongs);
+                user.save();
+                res.status(200).json({ message: 'all good' });
+            }
         } catch (e) {
             return res.status(500).json({ error: 'Внутрішня помилка сервера' });
         }
