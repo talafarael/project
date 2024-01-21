@@ -194,6 +194,17 @@ class authMusic {
     }
     async getmusic(req, res) {
         try {
+            const {author}=req.body
+            const getAuthor=Autors.findOne({
+                autor:author})
+            res.status(200).json(getAuthor)
+        } catch (error) {
+            console.error('Ошибка при сохранении музыки:', error);
+            res.status(500).send('Произошла ошибка при сохранении музыки.');
+        }
+    }
+    async getmusic(req, res) {
+        try {
             const { id } = req.body;
             console.log(id);
             const songs = await Songs.findOne({ _id: id });
