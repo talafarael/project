@@ -192,7 +192,7 @@ class authMusic {
             res.status(500).send('Произошла ошибка при сохранении музыки.');
         }
     }
-    async getmusic(req, res) {
+    async getAuthorInfo(req, res) {
         try {
             const {author}=req.body
             const getAuthor=Autors.findOne({

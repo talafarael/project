@@ -26,5 +26,6 @@ router.post('/registercheck',login.registercheck)
 router.post('/login',login.login)
 router.get('/getusers',login.getusers)
 router.get('/getuauthor',autor.getauthor)
+router.post('/getauthorinfo',authMusicController.getAuthorInfo)
 router.get('/getsongsforcreatmainpage',authMusicController.get_Songs_For_Creat_Mainpage)
 module.exports=router
