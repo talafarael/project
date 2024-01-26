@@ -100,7 +100,7 @@ class authMusic {
             // });
             console.log(req.files['img'][0].path);
             const songs = new Songs({
-                autor: 'The Rolling Stones',
+                autor: 'Nirvana',
 
                 songs: name,
                 img_autor: `https://project-49di.onrender.com/${req.files['img'][0].path}`,
